@@ -30,11 +30,15 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: unit-tests
+  name: nose
 spec:
-  description: This task will run the unit tests for the application.
   workspaces:
     - name: source
+  params:
+    - name: args
+      description: Arguments to pass to nose
+      type: string
+      default: "-v"
   steps:
     - name: nosetests
       image: python:3.9-slim
@@ -42,6 +46,6 @@ spec:
       script: |
         #!/bin/bash
         set -e
-        python -m pip install --upgrade pip
+        python -m pip install --upgrade pip wheel
         pip install -r requirements.txt
-        nosetests -v --with-coverage --cover-package=service
+        nosetests $(params.args)
