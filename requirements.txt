@@ -1,0 +1,5 @@
+flask
+flask-restful
+nose
+flake8
+coverage
